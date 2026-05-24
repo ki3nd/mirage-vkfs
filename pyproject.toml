@@ -9,6 +9,18 @@ dependencies = [
     "mirage-ai @ git+https://github.com/strukto-ai/mirage.git@7adc1c4ff852c5d88b12ad60e791984bb55f2fb0#subdirectory=python",
 ]
 
+[project.optional-dependencies]
+langchain = [
+    "deepagents>=0.4.12",
+    "langchain-openai>=1.2.0",
+]
+openai = [
+    "openai-agents>=0.14.7",
+]
+agents = [
+    "mirage-vkfs[langchain,openai]",
+]
+
 [build-system]
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
