@@ -6,7 +6,7 @@ readme = {file = "docs/dify.mdx", content-type = "text/markdown"}
 requires-python = ">=3.12"
 dependencies = [
     "httpx>=0.28.1",
-    "mirage-ai>=0.0.2a0",
+    "mirage-ai @ git+https://github.com/strukto-ai/mirage.git@7adc1c4ff852c5d88b12ad60e791984bb55f2fb0#subdirectory=python",
 ]
 
 [build-system]
