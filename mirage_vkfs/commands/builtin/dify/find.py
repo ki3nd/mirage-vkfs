@@ -2,6 +2,7 @@ import dataclasses
 from functools import partial
 
 from mirage_vkfs.core.dify.find import find as find_core
+from mirage_vkfs.core.dify.glob import resolve_glob
 from mirage_vkfs.core.dify.stat import stat as stat_core
 from mirage_vkfs.core.dify.stat import stat_light
 
@@ -68,6 +69,7 @@ async def find(
     **_extra: object,
 ) -> tuple[ByteSource | None, IOResult]:
     paths = _default_paths(paths, cwd)
+    paths = await resolve_glob(accessor, paths, index)
     search_path = paths[0]
     stat_fn = (partial(stat_core, accessor, index=index) if mtime is not None
                else partial(stat_light, accessor, index=index))

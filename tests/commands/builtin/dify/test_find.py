@@ -75,3 +75,19 @@ async def test_find_uses_cwd_when_path_missing(monkeypatch, dify_accessor,
 
     assert await materialize(stdout) == b"/knowledge/guides/quickstart.md"
     assert io.exit_code == 0
+
+
+@pytest.mark.asyncio
+async def test_find_resolves_glob_patterns(monkeypatch, dify_accessor,
+                                           dify_index):
+    monkeypatch.setattr(tree, "list_all_documents", list_nested_documents)
+    path = PathSpec(original="/knowledge/guides/*.md",
+                    directory="/knowledge/guides",
+                    pattern="*.md",
+                    resolved=False,
+                    prefix="/knowledge/")
+
+    stdout, io = await find(dify_accessor, [path], index=dify_index)
+
+    assert await materialize(stdout) == b"/knowledge/guides/quickstart.md"
+    assert io.exit_code == 0

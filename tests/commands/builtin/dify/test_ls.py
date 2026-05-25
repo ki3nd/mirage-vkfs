@@ -3,6 +3,7 @@ from mirage_vkfs.commands.builtin.dify.ls import ls
 from mirage_vkfs.core.dify import stat, tree
 
 from mirage.io.types import materialize
+from mirage.types import PathSpec
 
 from .conftest import document
 
@@ -68,3 +69,20 @@ async def test_ls_uses_cwd_and_supports_list_dir(monkeypatch, dify_accessor,
                                   index=dify_index)
     assert await materialize(dir_stdout) == b"guides"
     assert dir_io.exit_code == 0
+
+
+@pytest.mark.asyncio
+async def test_ls_resolves_glob_patterns(monkeypatch, dify_accessor,
+                                         dify_index):
+    monkeypatch.setattr(tree, "list_all_documents", list_basic_documents)
+    monkeypatch.setattr(stat, "get_document_detail", get_detail)
+    path = PathSpec(original="/knowledge/*.md",
+                    directory="/knowledge",
+                    pattern="*.md",
+                    resolved=False,
+                    prefix="/knowledge/")
+
+    stdout, io = await ls(dify_accessor, [path], d=True, index=dify_index)
+
+    assert await materialize(stdout) == b"README.md"
+    assert io.exit_code == 0

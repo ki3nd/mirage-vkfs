@@ -60,6 +60,7 @@ async def test_search_command_resolves_globs_and_passes_multiple_documents(
             PathSpec(original="/knowledge/guides/*.md",
                      directory="/knowledge/guides",
                      pattern="*.md",
+                     resolved=False,
                      prefix="/knowledge/")
         ],
         "login",

@@ -1,5 +1,6 @@
 from functools import partial
 
+from mirage_vkfs.core.dify.glob import resolve_glob
 from mirage_vkfs.core.dify.readdir import readdir
 from mirage_vkfs.core.dify.stat import stat
 
@@ -49,6 +50,7 @@ async def ls(
     index = _extra.get("index")
     cwd = _extra.get("cwd")
     paths = _default_paths(paths, cwd if isinstance(cwd, PathSpec) else None)
+    paths = await resolve_glob(accessor, paths, index)
     sort_by = LsSortBy.TIME if t else LsSortBy.SIZE if S else LsSortBy.NAME
     return await generic_ls(
         paths,
