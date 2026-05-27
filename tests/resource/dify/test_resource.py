@@ -73,6 +73,8 @@ def test_dify_resource_registers_expected_commands_and_ops():
     commands = {item.name for item in resource.commands()}
     ops = {item.name for item in resource.ops_list()}
 
-    assert {"cat", "ls", "grep", "find", "head", "tail",
-            "wc"}.issubset(commands)
+    assert {
+        "awk", "cat", "cut", "find", "grep", "head", "ls", "rg", "search",
+        "sed", "sort", "stat", "tail", "tree", "uniq", "wc"
+    }.issubset(commands)
     assert {"read", "readdir", "stat", "grep"}.issubset(ops)
